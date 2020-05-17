@@ -1,0 +1,28 @@
+{
+  "name": "@iamdimka/telegram",
+  "version": "1.0.0",
+  "description": "Telegram API Client",
+  "main": "index.js",
+  "scripts": {
+    "prepack": "rm -rf ./buld && tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/iamdimka/telegram-node.git"
+  },
+  "keywords": [
+    "telegram"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iamdimka/telegram-node/issues"
+  },
+  "homepage": "https://github.com/iamdimka/telegram-node#readme",
+  "devDependencies": {
+    "@types/cheerio": "^0.22.18",
+    "@types/node": "^13.13.6",
+    "cheerio": "^1.0.0-rc.3"
+  }
+}
