@@ -67,7 +67,7 @@ class Bot {
 
       let path = this.prefix + method;
       let contentType: string | undefined = undefined;
-      let body: Buffer | undefined;
+      let body: Buffer | null = null;
 
       if (payload) {
         switch (requestType) {
@@ -106,13 +106,8 @@ class Bot {
           "Content-Length": body ? body.length : 0
         }
       }, resolve)
-        .on("error", reject);
-
-      if (body) {
-        req.write(body);
-      }
-
-      req.end();
+        .on("error", reject)
+        .end(body);
     });
 
     const data = await new Promise<Buffer>((resolve, reject) => {

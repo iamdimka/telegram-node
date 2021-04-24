@@ -5,7 +5,7 @@ import { writeFileSync } from "fs";
 export async function loadModels() {
   const url = "https://core.telegram.org/bots/api";
 
-  const $ = await new Promise<CheerioStatic>((resolve, reject) => {
+  const $ = await new Promise<cheerio.Root>((resolve, reject) => {
     get(url, res => {
       if (res.statusCode !== 200) {
         reject(new Error(`Status code: ${res.statusCode}. ${res.statusMessage}`));
@@ -38,6 +38,10 @@ export async function loadModels() {
       return type.split(" and ").map(rewriteType).join(" | ");
     }
 
+    if (type.includes(",")) {
+      return type.split(",").map(rewriteType).join(" | ");
+    }
+
     switch (type) {
       case "Integer":
       case "Float":
@@ -53,6 +57,9 @@ export async function loadModels() {
       case "CallbackGame":
         return "any";
       default:
+        if (type.endsWith(" of")) {
+          return type.substring(0,type.length - 3);
+        }
         return type;
     }
   }
@@ -68,7 +75,7 @@ export async function loadModels() {
     let description;
     let url;
 
-    let n = node;
+    let n = node as cheerio.TagElement;
     while (n.previousSibling) {
       if (n.tagName === "p") {
         description = $(n).text().trim();
@@ -78,7 +85,7 @@ export async function loadModels() {
         break;
       }
 
-      n = n.previousSibling;
+      n = n.previousSibling as cheerio.TagElement;
     }
 
     types.add(title);
@@ -90,13 +97,13 @@ export async function loadModels() {
       isMethod: title[0].toLowerCase() === title[0],
       fields: $("tbody tr", node).toArray().map(el => {
         const $td = $("td", el);
-        const description = $td.last().text().trim().replace(/^Optional\s*.\s*/i, "");
+        const description = $td.last().text().trim();
 
         return {
           name: $td.eq(0).text(),
           type: rewriteType($td.eq(1).text()),
           optional: $td.length > 3 ? $td.eq(2).text() !== "Yes" : /optional\./i.test(description),
-          description
+          description: description.replace(/^Optional\s*.\s*/i, "")
         };
       })
     };
@@ -155,6 +162,7 @@ export async function loadModels() {
     `type InputMessageContent = ${typesMatched(/^Input(.+)MessageContent$/)};`,
     `type PassportElementError = ${typesMatched(/^PassportElementError/)};`,
     `type InlineQueryResult = ${typesMatched(/^InlineQueryResult/)}`,
+
 
     pad(
       items.filter(item => !item.isMethod).map(item => [
