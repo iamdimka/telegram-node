@@ -1,18 +1,42 @@
 export default Telegram
 namespace Telegram {
-  type InputMedia = InputMediaPhoto | InputMediaVideo | InputMediaAnimation | InputMediaAudio | InputMediaDocument
-
-  type InputMessageContent = InputTextMessageContent | InputLocationMessageContent | InputVenueMessageContent | InputContactMessageContent | InputInvoiceMessageContent
-
-  type PassportElementError = PassportElementErrorDataField | PassportElementErrorFrontSide | PassportElementErrorReverseSide | PassportElementErrorSelfie | PassportElementErrorFile | PassportElementErrorFiles | PassportElementErrorTranslationFile | PassportElementErrorTranslationFiles | PassportElementErrorUnspecified
-
-  type InlineQueryResult = InlineQueryResultArticle | InlineQueryResultPhoto | InlineQueryResultGif | InlineQueryResultMpeg4Gif | InlineQueryResultVideo | InlineQueryResultAudio | InlineQueryResultVoice | InlineQueryResultDocument | InlineQueryResultLocation | InlineQueryResultVenue | InlineQueryResultContact | InlineQueryResultGame | InlineQueryResultCachedPhoto | InlineQueryResultCachedGif | InlineQueryResultCachedMpeg4Gif | InlineQueryResultCachedSticker | InlineQueryResultCachedDocument | InlineQueryResultCachedVideo | InlineQueryResultCachedVoice | InlineQueryResultCachedAudio
-
   type VoiceChatStarted = any
 
+  /**
+   * This object contains information about one member of a chat. Currently, the following 6 types of chat members are supported:
+   * @url https://core.telegram.org/bots/api#chatmember
+   */
   type ChatMember = ChatMemberOwner | ChatMemberAdministrator | ChatMemberMember | ChatMemberRestricted | ChatMemberLeft | ChatMemberBanned
 
+  /**
+   * This object represents the scope to which bot commands are applied. Currently, the following 7 scopes are supported:
+   * @url https://core.telegram.org/bots/api#botcommandscope
+   */
   type BotCommandScope = BotCommandScopeDefault | BotCommandScopeAllPrivateChats | BotCommandScopeAllGroupChats | BotCommandScopeAllChatAdministrators | BotCommandScopeChat | BotCommandScopeChatAdministrators | BotCommandScopeChatMember
+
+  /**
+   * This object represents the content of a media message to be sent. It should be one of
+   * @url https://core.telegram.org/bots/api#inputmedia
+   */
+  type InputMedia = InputMediaAnimation | InputMediaDocument | InputMediaAudio | InputMediaPhoto | InputMediaVideo
+
+  /**
+   * This object represents one result of an inline query. Telegram clients currently support results of the following 20 types:
+   * @url https://core.telegram.org/bots/api#inlinequeryresult
+   */
+  type InlineQueryResult = InlineQueryResultCachedAudio | InlineQueryResultCachedDocument | InlineQueryResultCachedGif | InlineQueryResultCachedMpeg4Gif | InlineQueryResultCachedPhoto | InlineQueryResultCachedSticker | InlineQueryResultCachedVideo | InlineQueryResultCachedVoice | InlineQueryResultArticle | InlineQueryResultAudio | InlineQueryResultContact | InlineQueryResultGame | InlineQueryResultDocument | InlineQueryResultGif | InlineQueryResultLocation | InlineQueryResultMpeg4Gif | InlineQueryResultPhoto | InlineQueryResultVenue | InlineQueryResultVideo | InlineQueryResultVoice
+
+  /**
+   * This object represents the content of a message to be sent as a result of an inline query. Telegram clients currently support the following 5 types:
+   * @url https://core.telegram.org/bots/api#inputmessagecontent
+   */
+  type InputMessageContent = InputTextMessageContent | InputLocationMessageContent | InputVenueMessageContent | InputContactMessageContent | InputInvoiceMessageContent
+
+  /**
+   * This object represents an error in the Telegram Passport element which was submitted that should be resolved by the user. It should be one of:
+   * @url https://core.telegram.org/bots/api#passportelementerror
+   */
+  type PassportElementError = PassportElementErrorDataField | PassportElementErrorFrontSide | PassportElementErrorReverseSide | PassportElementErrorSelfie | PassportElementErrorFile | PassportElementErrorFiles | PassportElementErrorTranslationFile | PassportElementErrorTranslationFiles | PassportElementErrorUnspecified
 
   /**
    * This object represents an incoming update.At most one of the optional parameters can be present in any given update.
@@ -68,7 +92,7 @@ namespace Telegram {
     /** Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery */
     max_connections?: number
     /** A list of update types the bot is subscribed to. Defaults to all update types except chat_member */
-    allowed_updates?: Array<string>
+    allowed_updates?: string[]
   }
   /**
    * This object represents a Telegram user or bot.
@@ -176,7 +200,7 @@ namespace Telegram {
     /** For text messages, the actual UTF-8 text of the message, 0-4096 characters */
     text?: string
     /** For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text */
-    entities?: Array<MessageEntity>
+    entities?: MessageEntity[]
     /** Message is an animation, information about the animation. For backward compatibility, when this field is set, the document field will also be set */
     animation?: Animation
     /** Message is an audio file, information about the file */
@@ -184,7 +208,7 @@ namespace Telegram {
     /** Message is a general file, information about the file */
     document?: Document
     /** Message is a photo, available sizes of the photo */
-    photo?: Array<PhotoSize>
+    photo?: PhotoSize[]
     /** Message is a sticker, information about the sticker */
     sticker?: Sticker
     /** Message is a video, information about the video */
@@ -196,7 +220,7 @@ namespace Telegram {
     /** Caption for the animation, audio, document, photo, video or voice, 0-1024 characters */
     caption?: string
     /** For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption */
-    caption_entities?: Array<MessageEntity>
+    caption_entities?: MessageEntity[]
     /** Message is a shared contact, information about the contact */
     contact?: Contact
     /** Message is a dice with random value */
@@ -210,13 +234,13 @@ namespace Telegram {
     /** Message is a shared location, information about the location */
     location?: Location
     /** New members that were added to the group or supergroup and information about them (the bot itself may be one of these members) */
-    new_chat_members?: Array<User>
+    new_chat_members?: User[]
     /** A member was removed from the group, information about them (this member may be the bot itself) */
     left_chat_member?: User
     /** A chat title was changed to this value */
     new_chat_title?: string
     /** A chat photo was change to this value */
-    new_chat_photo?: Array<PhotoSize>
+    new_chat_photo?: PhotoSize[]
     /** Service message: the chat photo was deleted */
     delete_chat_photo?: true
     /** Service message: the group has been created */
@@ -466,7 +490,7 @@ namespace Telegram {
     /** The user, who changed the answer to the poll */
     user: User
     /** 0-based identifiers of answer options, chosen by the user. May be empty if the user retracted their vote. */
-    option_ids: Array<number>
+    option_ids: number[]
   }
   /**
    * This object contains information about a poll.
@@ -478,7 +502,7 @@ namespace Telegram {
     /** Poll question, 1-300 characters */
     question: string
     /** List of poll options */
-    options: Array<PollOption>
+    options: PollOption[]
     /** Total number of users that voted in the poll */
     total_voter_count: number
     /** True, if the poll is closed */
@@ -494,7 +518,7 @@ namespace Telegram {
     /** Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters */
     explanation?: string
     /** Special entities like usernames, URLs, bot commands, etc. that appear in the explanation */
-    explanation_entities?: Array<MessageEntity>
+    explanation_entities?: MessageEntity[]
     /** Amount of time in seconds the poll will be active after creation */
     open_period?: number
     /** Point in time (Unix timestamp) when the poll will be automatically closed */
@@ -580,7 +604,7 @@ namespace Telegram {
    */
   export interface VoiceChatParticipantsInvited {
     /** New members that were invited to the voice chat */
-    users?: Array<User>
+    users?: User[]
   }
   /**
    * This object represent a user's profile pictures.
@@ -590,7 +614,7 @@ namespace Telegram {
     /** Total number of profile pictures the target user has */
     total_count: number
     /** Requested profile pictures (in up to 4 sizes each) */
-    photos: Array<Array<PhotoSize>>
+    photos: PhotoSize[][]
   }
   /**
    * This object represents a file ready to be downloaded. The file can be downloaded via the link https://api.telegram.org/file/bot<token>/<file_path>. It is guaranteed that the link will be valid for at least 1 hour. When the link expires, a new one can be requested by calling getFile.
@@ -612,7 +636,7 @@ namespace Telegram {
    */
   export interface ReplyKeyboardMarkup {
     /** Array of button rows, each represented by an Array of KeyboardButton objects */
-    keyboard: Array<Array<KeyboardButton>>
+    keyboard: KeyboardButton[][]
     /** Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always of the same height as the app's standard keyboard. */
     resize_keyboard?: boolean
     /** Requests clients to hide the keyboard as soon as it's been used. The keyboard will still be available, but clients will automatically display the usual letter-keyboard in the chat – the user can press a special button in the input field to see the custom keyboard again. Defaults to false. */
@@ -660,7 +684,7 @@ namespace Telegram {
    */
   export interface InlineKeyboardMarkup {
     /** Array of button rows, each represented by an Array of InlineKeyboardButton objects */
-    inline_keyboard: Array<Array<InlineKeyboardButton>>
+    inline_keyboard: InlineKeyboardButton[][]
   }
   /**
    * This object represents one button of an inline keyboard. You must use exactly one of the optional fields.
@@ -1022,7 +1046,7 @@ namespace Telegram {
     /** Mode for parsing entities in the photo caption. See formatting options for more details. */
     parse_mode?: string
     /** List of special entities that appear in the caption, which can be specified instead of parse_mode */
-    caption_entities?: Array<MessageEntity>
+    caption_entities?: MessageEntity[]
   }
   /**
    * Represents a video to be sent.
@@ -1040,7 +1064,7 @@ namespace Telegram {
     /** Mode for parsing entities in the video caption. See formatting options for more details. */
     parse_mode?: string
     /** List of special entities that appear in the caption, which can be specified instead of parse_mode */
-    caption_entities?: Array<MessageEntity>
+    caption_entities?: MessageEntity[]
     /** Video width */
     width?: number
     /** Video height */
@@ -1066,7 +1090,7 @@ namespace Telegram {
     /** Mode for parsing entities in the animation caption. See formatting options for more details. */
     parse_mode?: string
     /** List of special entities that appear in the caption, which can be specified instead of parse_mode */
-    caption_entities?: Array<MessageEntity>
+    caption_entities?: MessageEntity[]
     /** Animation width */
     width?: number
     /** Animation height */
@@ -1090,7 +1114,7 @@ namespace Telegram {
     /** Mode for parsing entities in the audio caption. See formatting options for more details. */
     parse_mode?: string
     /** List of special entities that appear in the caption, which can be specified instead of parse_mode */
-    caption_entities?: Array<MessageEntity>
+    caption_entities?: MessageEntity[]
     /** Duration of the audio in seconds */
     duration?: number
     /** Performer of the audio */
@@ -1114,7 +1138,7 @@ namespace Telegram {
     /** Mode for parsing entities in the document caption. See formatting options for more details. */
     parse_mode?: string
     /** List of special entities that appear in the caption, which can be specified instead of parse_mode */
-    caption_entities?: Array<MessageEntity>
+    caption_entities?: MessageEntity[]
     /** Disables automatic server-side content type detection for files uploaded using multipart/form-data. Always true, if the document is sent as part of an album. */
     disable_content_type_detection?: boolean
   }
@@ -1158,7 +1182,7 @@ namespace Telegram {
     /** True, if the sticker set contains masks */
     contains_masks: boolean
     /** List of all set stickers */
-    stickers: Array<Sticker>
+    stickers: Sticker[]
     /** Sticker set thumbnail in the .WEBP or .TGS format */
     thumb?: PhotoSize
   }
@@ -1248,7 +1272,7 @@ namespace Telegram {
     /** Mode for parsing entities in the photo caption. See formatting options for more details. */
     parse_mode?: string
     /** List of special entities that appear in the caption, which can be specified instead of parse_mode */
-    caption_entities?: Array<MessageEntity>
+    caption_entities?: MessageEntity[]
     /** Inline keyboard attached to the message */
     reply_markup?: InlineKeyboardMarkup
     /** Content of the message to be sent instead of the photo */
@@ -1282,7 +1306,7 @@ namespace Telegram {
     /** Mode for parsing entities in the caption. See formatting options for more details. */
     parse_mode?: string
     /** List of special entities that appear in the caption, which can be specified instead of parse_mode */
-    caption_entities?: Array<MessageEntity>
+    caption_entities?: MessageEntity[]
     /** Inline keyboard attached to the message */
     reply_markup?: InlineKeyboardMarkup
     /** Content of the message to be sent instead of the GIF animation */
@@ -1316,7 +1340,7 @@ namespace Telegram {
     /** Mode for parsing entities in the caption. See formatting options for more details. */
     parse_mode?: string
     /** List of special entities that appear in the caption, which can be specified instead of parse_mode */
-    caption_entities?: Array<MessageEntity>
+    caption_entities?: MessageEntity[]
     /** Inline keyboard attached to the message */
     reply_markup?: InlineKeyboardMarkup
     /** Content of the message to be sent instead of the video animation */
@@ -1344,7 +1368,7 @@ namespace Telegram {
     /** Mode for parsing entities in the video caption. See formatting options for more details. */
     parse_mode?: string
     /** List of special entities that appear in the caption, which can be specified instead of parse_mode */
-    caption_entities?: Array<MessageEntity>
+    caption_entities?: MessageEntity[]
     /** Video width */
     video_width?: number
     /** Video height */
@@ -1376,7 +1400,7 @@ namespace Telegram {
     /** Mode for parsing entities in the audio caption. See formatting options for more details. */
     parse_mode?: string
     /** List of special entities that appear in the caption, which can be specified instead of parse_mode */
-    caption_entities?: Array<MessageEntity>
+    caption_entities?: MessageEntity[]
     /** Performer */
     performer?: string
     /** Audio duration in seconds */
@@ -1404,7 +1428,7 @@ namespace Telegram {
     /** Mode for parsing entities in the voice message caption. See formatting options for more details. */
     parse_mode?: string
     /** List of special entities that appear in the caption, which can be specified instead of parse_mode */
-    caption_entities?: Array<MessageEntity>
+    caption_entities?: MessageEntity[]
     /** Recording duration in seconds */
     voice_duration?: number
     /** Inline keyboard attached to the message */
@@ -1428,7 +1452,7 @@ namespace Telegram {
     /** Mode for parsing entities in the document caption. See formatting options for more details. */
     parse_mode?: string
     /** List of special entities that appear in the caption, which can be specified instead of parse_mode */
-    caption_entities?: Array<MessageEntity>
+    caption_entities?: MessageEntity[]
     /** A valid URL for the file */
     document_url: string
     /** Mime type of the content of the file, either “application/pdf” or “application/zip” */
@@ -1578,7 +1602,7 @@ namespace Telegram {
     /** Mode for parsing entities in the photo caption. See formatting options for more details. */
     parse_mode?: string
     /** List of special entities that appear in the caption, which can be specified instead of parse_mode */
-    caption_entities?: Array<MessageEntity>
+    caption_entities?: MessageEntity[]
     /** Inline keyboard attached to the message */
     reply_markup?: InlineKeyboardMarkup
     /** Content of the message to be sent instead of the photo */
@@ -1602,7 +1626,7 @@ namespace Telegram {
     /** Mode for parsing entities in the caption. See formatting options for more details. */
     parse_mode?: string
     /** List of special entities that appear in the caption, which can be specified instead of parse_mode */
-    caption_entities?: Array<MessageEntity>
+    caption_entities?: MessageEntity[]
     /** Inline keyboard attached to the message */
     reply_markup?: InlineKeyboardMarkup
     /** Content of the message to be sent instead of the GIF animation */
@@ -1626,7 +1650,7 @@ namespace Telegram {
     /** Mode for parsing entities in the caption. See formatting options for more details. */
     parse_mode?: string
     /** List of special entities that appear in the caption, which can be specified instead of parse_mode */
-    caption_entities?: Array<MessageEntity>
+    caption_entities?: MessageEntity[]
     /** Inline keyboard attached to the message */
     reply_markup?: InlineKeyboardMarkup
     /** Content of the message to be sent instead of the video animation */
@@ -1668,7 +1692,7 @@ namespace Telegram {
     /** Mode for parsing entities in the document caption. See formatting options for more details. */
     parse_mode?: string
     /** List of special entities that appear in the caption, which can be specified instead of parse_mode */
-    caption_entities?: Array<MessageEntity>
+    caption_entities?: MessageEntity[]
     /** Inline keyboard attached to the message */
     reply_markup?: InlineKeyboardMarkup
     /** Content of the message to be sent instead of the file */
@@ -1694,7 +1718,7 @@ namespace Telegram {
     /** Mode for parsing entities in the video caption. See formatting options for more details. */
     parse_mode?: string
     /** List of special entities that appear in the caption, which can be specified instead of parse_mode */
-    caption_entities?: Array<MessageEntity>
+    caption_entities?: MessageEntity[]
     /** Inline keyboard attached to the message */
     reply_markup?: InlineKeyboardMarkup
     /** Content of the message to be sent instead of the video */
@@ -1718,7 +1742,7 @@ namespace Telegram {
     /** Mode for parsing entities in the voice message caption. See formatting options for more details. */
     parse_mode?: string
     /** List of special entities that appear in the caption, which can be specified instead of parse_mode */
-    caption_entities?: Array<MessageEntity>
+    caption_entities?: MessageEntity[]
     /** Inline keyboard attached to the message */
     reply_markup?: InlineKeyboardMarkup
     /** Content of the message to be sent instead of the voice message */
@@ -1740,7 +1764,7 @@ namespace Telegram {
     /** Mode for parsing entities in the audio caption. See formatting options for more details. */
     parse_mode?: string
     /** List of special entities that appear in the caption, which can be specified instead of parse_mode */
-    caption_entities?: Array<MessageEntity>
+    caption_entities?: MessageEntity[]
     /** Inline keyboard attached to the message */
     reply_markup?: InlineKeyboardMarkup
     /** Content of the message to be sent instead of the audio */
@@ -1756,7 +1780,7 @@ namespace Telegram {
     /** Mode for parsing entities in the message text. See formatting options for more details. */
     parse_mode?: string
     /** List of special entities that appear in message text, which can be specified instead of parse_mode */
-    entities?: Array<MessageEntity>
+    entities?: MessageEntity[]
     /** Disables link previews for links in the sent message */
     disable_web_page_preview?: boolean
   }
@@ -1830,11 +1854,11 @@ namespace Telegram {
     /** Three-letter ISO 4217 currency code, see more on currencies */
     currency: string
     /** Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.) */
-    prices: Array<LabeledPrice>
+    prices: LabeledPrice[]
     /** The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0 */
     max_tip_amount?: number
     /** A JSON-serialized array of suggested amounts of tip in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount. */
-    suggested_tip_amounts?: Array<number>
+    suggested_tip_amounts?: number[]
     /** A JSON-serialized object for data about the invoice, which will be shared with the payment provider. A detailed description of the required fields should be provided by the payment provider. */
     provider_data?: string
     /** URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service. People like it better when they see what they are paying for. */
@@ -1944,7 +1968,7 @@ namespace Telegram {
     /** Option title */
     title: string
     /** List of price portions */
-    prices: Array<LabeledPrice>
+    prices: LabeledPrice[]
   }
   /**
    * This object contains basic information about a successful payment.
@@ -2006,7 +2030,7 @@ namespace Telegram {
    */
   export interface PassportData {
     /** Array with information about documents and other Telegram Passport elements that was shared with the bot */
-    data: Array<EncryptedPassportElement>
+    data: EncryptedPassportElement[]
     /** Encrypted credentials required to decrypt the data */
     credentials: EncryptedCredentials
   }
@@ -2038,7 +2062,7 @@ namespace Telegram {
     /** User's verified email address, available only for “email” type */
     email?: string
     /** Array of encrypted files with documents provided by the user, available for “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration” and “temporary_registration” types. Files can be decrypted and verified using the accompanying EncryptedCredentials. */
-    files?: Array<PassportFile>
+    files?: PassportFile[]
     /** Encrypted file with the front side of the document, provided by the user. Available for “passport”, “driver_license”, “identity_card” and “internal_passport”. The file can be decrypted and verified using the accompanying EncryptedCredentials. */
     front_side?: PassportFile
     /** Encrypted file with the reverse side of the document, provided by the user. Available for “driver_license” and “identity_card”. The file can be decrypted and verified using the accompanying EncryptedCredentials. */
@@ -2046,7 +2070,7 @@ namespace Telegram {
     /** Encrypted file with the selfie of the user holding a document, provided by the user; available for “passport”, “driver_license”, “identity_card” and “internal_passport”. The file can be decrypted and verified using the accompanying EncryptedCredentials. */
     selfie?: PassportFile
     /** Array of encrypted files with translated versions of documents provided by the user. Available if requested for “passport”, “driver_license”, “identity_card”, “internal_passport”, “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration” and “temporary_registration” types. Files can be decrypted and verified using the accompanying EncryptedCredentials. */
-    translation?: Array<PassportFile>
+    translation?: PassportFile[]
     /** Base64-encoded element hash for using in PassportElementErrorUnspecified */
     hash: string
   }
@@ -2144,7 +2168,7 @@ namespace Telegram {
     /** The section of the user's Telegram Passport which has the issue, one of “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration” */
     type: string
     /** List of base64-encoded file hashes */
-    file_hashes: Array<string>
+    file_hashes: string[]
     /** Error message */
     message: string
   }
@@ -2172,7 +2196,7 @@ namespace Telegram {
     /** Type of element of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”, “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration” */
     type: string
     /** List of base64-encoded file hashes */
-    file_hashes: Array<string>
+    file_hashes: string[]
     /** Error message */
     message: string
   }
@@ -2200,11 +2224,11 @@ namespace Telegram {
     /** Description of the game */
     description: string
     /** Photo that will be displayed in the game message in chats. */
-    photo: Array<PhotoSize>
+    photo: PhotoSize[]
     /** Brief description of the game or high scores included in the game message. Can be automatically edited to include current high scores for the game when the bot calls setGameScore, or manually edited using editMessageText. 0-4096 characters. */
     text?: string
     /** Special entities that appear in text, such as usernames, URLs, bot commands, etc. */
-    text_entities?: Array<MessageEntity>
+    text_entities?: MessageEntity[]
     /** Animation that will be displayed in the game message in chats. Upload via BotFather */
     animation?: Animation
   }
@@ -2236,9 +2260,9 @@ namespace Telegram {
         /** Timeout in seconds for long polling. Defaults to 0, i.e. usual short polling. Should be positive, short polling should be used for testing purposes only. */
         timeout?: number
         /** A JSON-serialized list of the update types you want your bot to receive. For example, specify [“message”, “edited_channel_post”, “callback_query”] to only receive updates of these types. See Update for a complete list of available update types. Specify an empty list to receive all update types except chat_member (default). If not specified, the previous setting will be used.Please note that this parameter doesn't affect updates created before the call to the getUpdates, so unwanted updates may be received for a short period of time. */
-        allowed_updates?: Array<string>
+        allowed_updates?: string[]
       }
-      response: Array<Update>
+      response: Update[]
     }
     /**
      * Use this method to specify a url and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified url, containing a JSON-serialized Update. In case of an unsuccessful request, we will give up after a reasonable amount of attempts. Returns True on success.
@@ -2255,7 +2279,7 @@ namespace Telegram {
         /** Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery, 1-100. Defaults to 40. Use lower values to limit the load on your bot's server, and higher values to increase your bot's throughput. */
         max_connections?: number
         /** A JSON-serialized list of the update types you want your bot to receive. For example, specify [“message”, “edited_channel_post”, “callback_query”] to only receive updates of these types. See Update for a complete list of available update types. Specify an empty list to receive all update types except chat_member (default). If not specified, the previous setting will be used.Please note that this parameter doesn't affect updates created before the call to the setWebhook, so unwanted updates may be received for a short period of time. */
-        allowed_updates?: Array<string>
+        allowed_updates?: string[]
         /** Pass True to drop all pending updates */
         drop_pending_updates?: boolean
       }
@@ -2285,7 +2309,7 @@ namespace Telegram {
         /** Mode for parsing entities in the message text. See formatting options for more details. */
         parse_mode?: string
         /** A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode */
-        entities?: Array<MessageEntity>
+        entities?: MessageEntity[]
         /** Disables link previews for links in this message */
         disable_web_page_preview?: boolean
         /** Sends the message silently. Users will receive a notification with no sound. */
@@ -2333,7 +2357,7 @@ namespace Telegram {
         /** Mode for parsing entities in the new caption. See formatting options for more details. */
         parse_mode?: string
         /** A JSON-serialized list of special entities that appear in the new caption, which can be specified instead of parse_mode */
-        caption_entities?: Array<MessageEntity>
+        caption_entities?: MessageEntity[]
         /** Sends the message silently. Users will receive a notification with no sound. */
         disable_notification?: boolean
         /** If the message is a reply, ID of the original message */
@@ -2360,7 +2384,7 @@ namespace Telegram {
         /** Mode for parsing entities in the photo caption. See formatting options for more details. */
         parse_mode?: string
         /** A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode */
-        caption_entities?: Array<MessageEntity>
+        caption_entities?: MessageEntity[]
         /** Sends the message silently. Users will receive a notification with no sound. */
         disable_notification?: boolean
         /** If the message is a reply, ID of the original message */
@@ -2387,7 +2411,7 @@ namespace Telegram {
         /** Mode for parsing entities in the audio caption. See formatting options for more details. */
         parse_mode?: string
         /** A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode */
-        caption_entities?: Array<MessageEntity>
+        caption_entities?: MessageEntity[]
         /** Duration of the audio in seconds */
         duration?: number
         /** Performer */
@@ -2424,7 +2448,7 @@ namespace Telegram {
         /** Mode for parsing entities in the document caption. See formatting options for more details. */
         parse_mode?: string
         /** A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode */
-        caption_entities?: Array<MessageEntity>
+        caption_entities?: MessageEntity[]
         /** Disables automatic server-side content type detection for files uploaded using multipart/form-data */
         disable_content_type_detection?: boolean
         /** Sends the message silently. Users will receive a notification with no sound. */
@@ -2461,7 +2485,7 @@ namespace Telegram {
         /** Mode for parsing entities in the video caption. See formatting options for more details. */
         parse_mode?: string
         /** A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode */
-        caption_entities?: Array<MessageEntity>
+        caption_entities?: MessageEntity[]
         /** Pass True, if the uploaded video is suitable for streaming */
         supports_streaming?: boolean
         /** Sends the message silently. Users will receive a notification with no sound. */
@@ -2498,7 +2522,7 @@ namespace Telegram {
         /** Mode for parsing entities in the animation caption. See formatting options for more details. */
         parse_mode?: string
         /** A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode */
-        caption_entities?: Array<MessageEntity>
+        caption_entities?: MessageEntity[]
         /** Sends the message silently. Users will receive a notification with no sound. */
         disable_notification?: boolean
         /** If the message is a reply, ID of the original message */
@@ -2525,7 +2549,7 @@ namespace Telegram {
         /** Mode for parsing entities in the voice message caption. See formatting options for more details. */
         parse_mode?: string
         /** A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode */
-        caption_entities?: Array<MessageEntity>
+        caption_entities?: MessageEntity[]
         /** Duration of the voice message in seconds */
         duration?: number
         /** Sends the message silently. Users will receive a notification with no sound. */
@@ -2575,7 +2599,7 @@ namespace Telegram {
         /** Unique identifier for the target chat or username of the target channel (in the format @channelusername) */
         chat_id: number | string
         /** A JSON-serialized array describing messages to be sent, must include 2-10 items */
-        media: Array<InputMediaAudio | InputMediaDocument | InputMediaPhoto | InputMediaVideo>
+        media: InputMediaAudio | InputMediaDocument | InputMediaPhoto | InputMediaVideo[]
         /** Sends messages silently. Users will receive a notification with no sound. */
         disable_notification?: boolean
         /** If the messages are a reply, ID of the original message */
@@ -2583,7 +2607,7 @@ namespace Telegram {
         /** Pass True, if the message should be sent even if the specified replied-to message is not found */
         allow_sending_without_reply?: boolean
       }
-      response: Array<Message>
+      response: Message[]
     }
     /**
      * Use this method to send point on the map. On success, the sent Message is returned.
@@ -2733,7 +2757,7 @@ namespace Telegram {
         /** Poll question, 1-300 characters */
         question: string
         /** A JSON-serialized list of answer options, 2-10 strings 1-100 characters each */
-        options: Array<string>
+        options: string[]
         /** True, if the poll needs to be anonymous, defaults to True */
         is_anonymous?: boolean
         /** Poll type, “quiz” or “regular”, defaults to “regular” */
@@ -2747,7 +2771,7 @@ namespace Telegram {
         /** Mode for parsing entities in the explanation. See formatting options for more details. */
         explanation_parse_mode?: string
         /** A JSON-serialized list of special entities that appear in the poll explanation, which can be specified instead of parse_mode */
-        explanation_entities?: Array<MessageEntity>
+        explanation_entities?: MessageEntity[]
         /** Amount of time in seconds the poll will be active after creation, 5-600. Can't be used together with close_date. */
         open_period?: number
         /** Point in time (Unix timestamp) when the poll will be automatically closed. Must be at least 5 and no more than 600 seconds in the future. Can't be used together with open_period. */
@@ -3113,7 +3137,7 @@ namespace Telegram {
         /** Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername) */
         chat_id: number | string
       }
-      response: Array<ChatMember>
+      response: ChatMember[]
     }
     /**
      * Use this method to get the number of members in a chat. Returns Int on success.
@@ -3189,7 +3213,7 @@ namespace Telegram {
     "setMyCommands": {
       request: {
         /** A JSON-serialized list of bot commands to be set as the list of the bot's commands. At most 100 commands can be specified. */
-        commands: Array<BotCommand>
+        commands: BotCommand[]
         /** A JSON-serialized object, describing scope of users for which the commands are relevant. Defaults to BotCommandScopeDefault. */
         scope?: BotCommandScope
         /** A two-letter ISO 639-1 language code. If empty, commands will be applied to all users from the given scope, for whose language there are no dedicated commands */
@@ -3240,7 +3264,7 @@ namespace Telegram {
         /** Mode for parsing entities in the message text. See formatting options for more details. */
         parse_mode?: string
         /** A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode */
-        entities?: Array<MessageEntity>
+        entities?: MessageEntity[]
         /** Disables link previews for links in this message */
         disable_web_page_preview?: boolean
         /** A JSON-serialized object for an inline keyboard. */
@@ -3265,7 +3289,7 @@ namespace Telegram {
         /** Mode for parsing entities in the message caption. See formatting options for more details. */
         parse_mode?: string
         /** A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode */
-        caption_entities?: Array<MessageEntity>
+        caption_entities?: MessageEntity[]
         /** A JSON-serialized object for an inline keyboard. */
         reply_markup?: InlineKeyboardMarkup
       }
@@ -3474,7 +3498,7 @@ namespace Telegram {
         /** Unique identifier for the answered query */
         inline_query_id: string
         /** A JSON-serialized array of results for the inline query */
-        results: Array<InlineQueryResult>
+        results: InlineQueryResult[]
         /** The maximum amount of time in seconds that the result of the inline query may be cached on the server. Defaults to 300. */
         cache_time?: number
         /** Pass True, if results may be cached on the server side only for the user that sent the query. By default, results may be returned to any user who sends the same query */
@@ -3507,11 +3531,11 @@ namespace Telegram {
         /** Three-letter ISO 4217 currency code, see more on currencies */
         currency: string
         /** Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.) */
-        prices: Array<LabeledPrice>
+        prices: LabeledPrice[]
         /** The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0 */
         max_tip_amount?: number
         /** A JSON-serialized array of suggested amounts of tips in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount. */
-        suggested_tip_amounts?: Array<number>
+        suggested_tip_amounts?: number[]
         /** Unique deep-linking parameter. If left empty, forwarded copies of the sent message will have a Pay button, allowing multiple users to pay directly from the forwarded message, using the same invoice. If non-empty, forwarded copies of the sent message will have a URL button with a deep link to the bot (instead of a Pay button), with the value used as the start parameter */
         start_parameter?: string
         /** A JSON-serialized data about the invoice, which will be shared with the payment provider. A detailed description of required fields should be provided by the payment provider. */
@@ -3560,7 +3584,7 @@ namespace Telegram {
         /** Specify True if delivery to the specified address is possible and False if there are any problems (for example, if delivery to the specified address is not possible) */
         ok: boolean
         /** Required if ok is True. A JSON-serialized array of available shipping options. */
-        shipping_options?: Array<ShippingOption>
+        shipping_options?: ShippingOption[]
         /** Required if ok is False. Error message in human readable form that explains why it is impossible to complete the order (e.g. "Sorry, delivery to your desired address is unavailable'). Telegram will display this message to the user. */
         error_message?: string
       }
@@ -3590,7 +3614,7 @@ namespace Telegram {
         /** User identifier */
         user_id: number
         /** A JSON-serialized array describing the errors */
-        errors: Array<PassportElementError>
+        errors: PassportElementError[]
       }
       response: true
     }
@@ -3653,8 +3677,7 @@ namespace Telegram {
         /** Required if chat_id and message_id are not specified. Identifier of the inline message */
         inline_message_id?: string
       }
-      response: Array<GameHighScore>
+      response: GameHighScore[]
     }
-
   }
 }
